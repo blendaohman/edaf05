@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.Arrays;
+
 public class Solution {
 
     public static void main(String[] args) {
@@ -25,11 +26,9 @@ public class Solution {
                     break;
                 }
             }
-
             if (s == -1) {
                 break;
             }
-
             for (int i = 0; i < n && studentFree[s]; i++) {
                 int c = studentPref[s][i];
                 if (matches[c] == -1) {
@@ -45,7 +44,6 @@ public class Solution {
                 }
             }
         }
-
         return matches;
     }
 }
