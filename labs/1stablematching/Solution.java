@@ -7,16 +7,29 @@ public class Solution {
         parser.sortData();
 
         int[] matching = match(parser.getStudentPrefs(), parser.getcompanyPrefs());
-        System.out.println(Arrays.toString(matching));
+        for(int match : matching) {
+            System.out.println(match);
+        }
+
     }
 
+
     public static int[] match(int[][] studentPref, int[][] companyPref) {
-        int n = studentPref.length;
+        int n = studentPref.length; //Ska den va -1?
         int[] matches = new int[n];
+        for(int[] student : studentPref) {
+            for(int pref: student) {
+                System.out.print(pref + " ");
+            }
+            System.out.println();
+        }
+        System.out.println("n: " + n);
+
         Arrays.fill(matches, -1);
 
         boolean[] studentFree = new boolean[n];
         Arrays.fill(studentFree, true);
+        studentFree[0] = false;
 
         while (true) {
             int s = -1;
@@ -44,6 +57,8 @@ public class Solution {
                 }
             }
         }
-        return matches;
+        return Arrays.copyOfRange(matches, 1, matches.length);
+        //return matches;
     }
+
 }

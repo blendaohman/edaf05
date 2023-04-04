@@ -18,11 +18,11 @@ public class Parse {
         }
 
         int n = Integer.parseInt(lines.get(0));
-        lines.remove(0); //removing the first index ince it only tells us n
+        lines.remove(0); //removing the first index once it only tells us n
         studentPref = new int[n+1][n];
         companyPref = new int[n+1][n];
 
-
+        scanner.close();
     }
 
     public void sortData() {
@@ -33,7 +33,7 @@ public class Parse {
 
             String[] parts = line.split(" ");
             int nbr = Integer.parseInt(parts[0]);
-            //[1, 2, 1, 3] -> [2, 1, 3] [1, 0, 2]
+
            /* System.out.println("Line: " + line);
             System.out.println("PartNbr: " + nbr);
             System.out.println("companyPref[nbr]: " + companyPref[nbr][0] + companyPref[nbr][1]);
