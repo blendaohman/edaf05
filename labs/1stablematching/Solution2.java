@@ -51,7 +51,6 @@ public class Solution2 {
             students.removeFirst();
             int prefNbr = student-1;
 
-
             System.out.println("student: " + student);
             System.out.println("studentPrefs[student][0]: " + studentPrefs[student][0] );
 
@@ -68,7 +67,6 @@ public class Solution2 {
             } else {
                 students.addLast(student);
             }
-
 
         }
 
