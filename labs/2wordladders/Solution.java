@@ -10,10 +10,10 @@ import java.util.Scanner;
 import java.util.Map.Entry;
 
 public class Solution {
-    static int n;
-    static int q;
-    static HashMap<String, Boolean> visited = new HashMap<String, Boolean>();
-    static HashMap<String, LinkedList<String>> tree = new HashMap<>();
+    static int n; // Number of nodes in graph
+    static int q; // Number of queries
+    static Map<String, Boolean> visited = new HashMap<String, Boolean>(); // Mapping what nodes are visited during search
+    static Map<String, LinkedList<String>> tree = new HashMap<>(); // Representation of the unweighted graph
 
     public static void main(String[] args) throws IOException {
         run();
@@ -22,7 +22,7 @@ public class Solution {
     /* Parses input and runs algorithm on each query */
     public static void run() throws FileNotFoundException {
         Scanner scan = new Scanner(System.in);
-        int row = 0;
+        int row = 0; // Index of the row in the input file
 
         while (scan.hasNextLine()) {
             String input = scan.nextLine();
@@ -32,11 +32,12 @@ public class Solution {
                 n = Integer.parseInt(meta[0]);
                 q = Integer.parseInt(meta[1]);
 
-            } else if (row <= n) { //Node row
+            } else if (row <= n) { // Input row introducing a node to graph
 
                 visited.put(input, false);
                 tree.put(input, new LinkedList<>());
-            } else { //Query row
+
+            } else { // Input row with a query
 
                 //Build tree if it's the first query
                 if (row == n + 1) {
@@ -45,18 +46,19 @@ public class Solution {
 
                 //Run this current query
                 String[] inputRow = input.split(" ");
-                bfs(inputRow[0], inputRow[1]);
+                bfs(inputRow[0], inputRow[1]); //Search algorithm
             }
             row++;
         }
     }
 
+    /* Method to build the unweighted graph */
     private static void buildConnections() {
         //for each node, create connection
         for (Map.Entry<String, LinkedList<String>> node : tree.entrySet()) { //for each node in tree
             for (String neighbour : tree.keySet()) { //Iterate though all nodes
                 if (isMatch(node.getKey(), neighbour)) { //If the node and possible neighbour should be connected
-                    tree.get(node.getKey()).add(neighbour); //Add the neighbour to the nodes list
+                    tree.get(node.getKey()).add(neighbour); //Add the neighbour to the node's list
                 }
 
             }
@@ -65,37 +67,24 @@ public class Solution {
 
     /* Checks if w1 should have a connection to w2 in the tree */
     private static boolean isMatch(String w1, String w2) {
-        for (int index = 1; index < 5; index++) {
 
-            if (w2.indexOf(w1.charAt(index)) >= 0) { //If the index of the character is present
+        for (int index = 1; index < 5; index++) { //Iterating the last 4 characters (all words have length 5)
+
+            if (w2.indexOf(w1.charAt(index)) >= 0) { //If the char at index is present in both words
 
                 //We replace that character with " " to continue the comparison
                 int removeIndex = w2.indexOf(w1.charAt(index));
                 w2 = w2.substring(0, removeIndex) + " " + w2.substring(removeIndex + 1);
-            } else { // Comparison failed, its not a match
+            } else { // Comparison failed, it's not a match
                 return false;
             }
         }
-        return true; //Was a match
+        return true; //All chars were present, it is a match
     }
-
-
-/*    private static boolean isMatch(String w1, String w2) {
-        for (int index = w1.length() - 1; index <  w1.length() - 5; index--) {
-            if (w2.indexOf(w1.charAt(index)) >= 0) { //If the character is present in w2
-                //We remove that character to continue the comparison
-                int removeIndex = w2.indexOf(w1.charAt(index));
-                w2 = w2.substring(0, removeIndex) + " " + w2.substring(removeIndex + 1);
-            } else { // Comparison failed, its not a match
-                return false;
-            }
-        }
-        return true;
-    }*/
 
     /* BFS algorithm */
     private static void bfs(String startNode, String endNode) {
-        LinkedList<String> q = new LinkedList<>();
+        LinkedList<String> q = new LinkedList<>(); // Queue of nodes to visit
 
         q.add(startNode); //And startnode to queue
         HashMap<String, String> pred = new HashMap<>(); //To know the previous node
@@ -116,7 +105,7 @@ public class Solution {
 
                 }
                 if (next.equals(endNode)) { //If the neighbour the endnode
-                    int distance = 0;
+                    int distance = 0; // Distance counter to print total distance
                     String temp = endNode; //Setting temp to the endnode
                     while (true) {
                         if (temp.equals(startNode)) { //If we have reached the start again, print distance
@@ -132,7 +121,7 @@ public class Solution {
             q.removeFirst();
 
         }
-        System.out.println("Impossible");
+        System.out.println("Impossible"); // Search failed, no path present
     }
 
 }
