@@ -10,13 +10,13 @@ public class Solution {
 
     public static void main(String[] args) {
         Parse parser = new Parse();
-        parser.sortData();
+      //  parser.sortData();
         companyPrefs = parser.getcompanyPrefs();
         studentPrefs = parser.getStudentPrefs();
 
-      /*  for (int i = 0; i < studentPrefs.length; i++) {
-            for (int j = 0; j < studentPrefs[i].length; j++) {
-                System.out.print(studentPrefs[i][j] + " ");
+      /*  for (int k = 0; k < studentPrefs.length; k++) {
+            for (int h = 0; h < studentPrefs[k].length; h++) {
+                System.out.print(studentPrefs[k][h] + " ");
             }
             System.out.println();
         }
@@ -27,10 +27,11 @@ public class Solution {
             }
             System.out.println();
         }
-        */
+       */
 
-        int n = studentPrefs.length;
-        matches = new int[n];
+
+        int m = studentPrefs.length;
+        matches = new int[m];
         Arrays.fill(matches, -1);
 
         match();

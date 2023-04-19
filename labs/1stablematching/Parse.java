@@ -5,38 +5,31 @@ import java.util.Scanner;
 public class Parse {
     private int[][] studentPref;
     private int[][] companyPref;
-
+    private int[][] hasAppered;
     private List<String> lines = new LinkedList<>();
+    private int n;
 
     public Parse(){
-
         Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        studentPref = new int[n + 1][n + 1];
+        companyPref = new int[n + 1][n + 1];
 
-        while(scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            lines.add(line);
-        }
-
-        int n = Integer.parseInt(lines.get(0));
-        lines.remove(0); //removing the first index once it only tells us n
-        studentPref = new int[n+1][n+1];
-        companyPref = new int[n+1][n+1];
-        scanner.close();
-    }
-
-    public void sortData() {
-        for(String line : lines) {
-
-            String[] parts = line.split(" ");
-            int nbr = Integer.parseInt(parts[0]);
-            if(companyPref[nbr][1] == 0) {
-                for(int i=0; i< parts.length; i++) {
-                    companyPref[nbr][Integer.parseInt(parts[i])] = i;
+        while(scanner.hasNext()) {
+            if (scanner.hasNextInt()) {
+                int nbr = scanner.nextInt();
+               // System.out.println("nbr: " + nbr);
+                if (companyPref[nbr][1] == 0) {
+                    for (int i = 1; i < n+1; i++) {
+                        int j = scanner.nextInt();
+                        companyPref[nbr][j] = i;
+                    }
                 }
-
-            } else { //Annars lägg till delarna i student
-                for (int i = 0; i < parts.length; i++) {
-                    studentPref[nbr][Integer.parseInt(parts[i])] = i;
+                else if (studentPref[nbr][1] == 0) { //Annars lägg till delarna i student
+                    for (int i = 1; i < n+1; i++) {
+                        int j = scanner.nextInt();
+                        studentPref[nbr][j] = i;
+                    }
                 }
             }
         }
