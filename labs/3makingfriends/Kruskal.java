@@ -2,27 +2,27 @@ import java.util.*;
 
 public class Kruskal {
 
-    //	Disjoint Sets Data Structure
-    private int[] friends; //
+    //	Data Structure for disjoint sets of people
+    private int[] persons; //
 
     public Kruskal(int n){
-        this.friends = new int[n]; //Testade n men då funkade det ej. n+1 funkar:). Fattar inte rikgit vad denna gör.
+        this.persons = new int[n]; // Number of people at the event
     }
 
 
-    /* Comment VAD GÖR DEN ENS  */
+    /* TBA  */
     private int find(int x){
-        if(friends[x] == x){
-            return x;
+        if(persons[x] == x){ // If the person x has no connection yet
+            return x; //We can return index x
         }
-        return find(friends[x]);
+        return find(persons[x]); //Else keep looking because we dont want a cykle
     }
 
-    /* Comment vad gör den?? */
+    /* TBA */
     private void unite(int x, int y){
-        int fx = find(x);
-        int fy = find(y);
-        friends[fx] = fy;
+        int fx = find(x); //Node that will not create cycle
+        int fy = find(y); //Node that will not create cycle
+        persons[fx] = fy;  //They will be connected
     }
 
     /* Main method reads input, and finds weight of MST */
@@ -40,12 +40,14 @@ public class Kruskal {
         m = scan.nextInt();
 
         // An instance of Kruskal class containing an arraylist of friends
-        Kruskal kru = new Kruskal(n+1); //detta kan ju man ändra
+        Kruskal kru = new Kruskal(n+1); //detta kan ju man ändra. Men får error i find() om den är mindre
 
         //Vad gör detta idk
         //	initialize friends for the disjoint sets
-        for(int i=0;i<n;i++){
-            kru.friends[i]=i;
+        // Everyone is just connected to themselves?
+
+        for(int i=0;i<n;i++){ //Testat med i<n och i<n+1 för att få att funka
+            kru.persons[i]=i;
         }
 
         // Continue reading rest of input
@@ -82,7 +84,7 @@ public class Kruskal {
             // We do NOT want to create a cycle
             if( kru.find(a) != kru.find(b) ) {
 
-                //	Uniting the trees when we know there is no cycle
+                //	Uniting the trees at connection a-b when we know there is no cycle
                 kru.unite(a,b);
                 //	Adding total weight
                 treeWeight += w;
