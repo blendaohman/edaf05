@@ -3,8 +3,11 @@ import java.util.*;
 public class Kruskal {
 
     //	Disjoint Sets Data Structure
-    private static int[] friends; // tror denna ska vara n.
+    private int[] friends; // tror denna ska vara n.
 
+    public Kruskal(int n){
+        this.friends = new int[n];
+    }
 
     private int find(int x){
         if(friends[x] == x){
@@ -21,9 +24,7 @@ public class Kruskal {
 
     public static void main(String args[]){
         Scanner scan = new Scanner(System.in);
-        Kruskal samp = new Kruskal();
-
-
+        Kruskal samp = new Kruskal(100000); //detta kan ju man ändra
 
         //	declaring the variables to load input
         int n,m;
@@ -33,10 +34,7 @@ public class Kruskal {
         n = scan.nextInt();
         m = scan.nextInt();
 
-        /* detta är ju inte så snyggt så ska vara någon bra siffra, spelar dock inte roll hur stor den
-        * än är så funkar det ändå inte */
-        friends = new int[5000000]; //Funkar ej för 3 large
-        //	initialize fathers for the disjoint sets
+        //	initialize friends for the disjoint sets
         for(int i=0;i<100;i++){
             samp.friends[i]=i;
         }
