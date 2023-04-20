@@ -3,26 +3,26 @@ import java.util.*;
 public class Kruskal {
 
     //	Data Structure for disjoint sets of people
-    private int[] persons; //
+    private int[] parents; //
 
     public Kruskal(int n){
-        this.persons = new int[n]; // Number of people at the event
+        this.parents = new int[n]; // Number of people at the event
     }
 
 
     /* TBA  */
     private int find(int x){
-        if(persons[x] == x){ // If the person x has no connection yet
+        if(parents[x] == x){ // If the person x has no connection yet
             return x; //We can return index x
         }
-        return find(persons[x]); //Else keep looking because we dont want a cykle
+        return find(parents[x]); //Else keep looking because we dont want a cykle
     }
 
     /* TBA */
     private void unite(int x, int y){
         int fx = find(x); //Node that will not create cycle
         int fy = find(y); //Node that will not create cycle
-        persons[fx] = fy;  //They will be connected
+        parents[fx] = fy;  //set parent
     }
 
     /* Main method reads input, and finds weight of MST */
@@ -47,7 +47,7 @@ public class Kruskal {
         // Everyone is just connected to themselves?
 
         for(int i=0;i<n;i++){ //Testat med i<n och i<n+1 för att få att funka
-            kru.persons[i]=i;
+            kru.parents[i]=i;
         }
 
         // Continue reading rest of input
