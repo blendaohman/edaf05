@@ -3,12 +3,14 @@ import java.util.*;
 public class Kruskal {
 
     //	Disjoint Sets Data Structure
-    private int[] friends; // tror denna ska vara n.
+    private int[] friends; //
 
     public Kruskal(int n){
-        this.friends = new int[n];
+        this.friends = new int[n]; //Testade n men då funkade det ej. n+1 funkar:). Fattar inte rikgit vad denna gör.
     }
 
+
+    /* Comment VAD GÖR DEN ENS  */
     private int find(int x){
         if(friends[x] == x){
             return x;
@@ -16,71 +18,85 @@ public class Kruskal {
         return find(friends[x]);
     }
 
+    /* Comment vad gör den?? */
     private void unite(int x, int y){
         int fx = find(x);
         int fy = find(y);
         friends[fx] = fy;
     }
 
+    /* Main method reads input, and finds weight of MST */
     public static void main(String args[]){
         Scanner scan = new Scanner(System.in);
-        Kruskal samp = new Kruskal(100000); //detta kan ju man ändra
 
         //	declaring the variables to load input
         int n,m;
         int a,b,w;
-        ArrayList<Pair> edges = new ArrayList<>();
-        //	loading the input
+
+        //List of all our nodes in our tree, consisting of Pairs (name a, name b, and a weight w)
+        ArrayList<Pair> nodes = new ArrayList<>();
+        //	First row of input is some metadata
         n = scan.nextInt();
         m = scan.nextInt();
 
+        // An instance of Kruskal class containing an arraylist of friends
+        Kruskal kru = new Kruskal(n+1); //detta kan ju man ändra
+
+        //Vad gör detta idk
         //	initialize friends for the disjoint sets
-        for(int i=0;i<100;i++){
-            samp.friends[i]=i;
+        for(int i=0;i<n;i++){
+            kru.friends[i]=i;
         }
 
+        // Continue reading rest of input
         for(int i=0;i<m;i++){
             a = scan.nextInt();
             b = scan.nextInt();
             w = scan.nextInt();
-            edges.add(new Pair(w,a,b));
+            nodes.add(new Pair(w,a,b)); // Adding nodes and their connection to noode list
         }
 
-        //	NOW THE KRUSKAL'S ALGORITHM BEGINS
-        //	We firstly declare the variables for the MST
-        int mst_weight = 0, mst_edges = 0;
-        int	mst_ni = 0;
-        //	STEP 1:	sort the list of edges
-        //	comparator is interface that sort uses
-        Collections.sort(edges, new Comparator<Pair>() {
+        //	Kruskals algorithm
+        //	Variables for the Minimum Spanning Tree (MST)
+        int treeWeight = 0;
+        int treeEdges = 0;
+        int	currentNode = 0;
+
+        //	Sorting the nodes by weight using Comparator
+        Collections.sort(nodes, new Comparator<Pair>() {
             @Override
             public int compare(Pair p1, Pair p2) {
-                return p1.w - p2.w;
+                return p1.w - p2.w; //Giving us the smallest weighted pair
             }
         });
-        //	STEP 2-3:
-        while( ( mst_edges < n-1) || (mst_ni < m) ){
-            //	we brake the edge into the three integers they describe it
-            a = edges.get(mst_ni).a; //DEtta ger out of bounce..???
-            b = edges.get(mst_ni).b;
-            w = edges.get(mst_ni).w;
-            //	we check if the edge is ok to be included in the MST
-            //	if a and b are in different trees (if they are on the same we will create a cycle)
-            if( samp.find(a) != samp.find(b) ) {
-                //	we unite the two trees the edge connects
-                samp.unite(a,b);
-                //	we add the weight of the edge
-                mst_weight += w;
-                //	we print the edge and count it
-                //System.out.println(a + " " + b + " " + w);
-                mst_edges++;
+
+        //	Now we start comparing nodes to find the mimimum spanning tree
+        while( ( treeEdges < n-1) || (currentNode < m) ){
+
+            //	Getting the three propeties of this pair/connection of the current node
+            a = nodes.get(currentNode).a;
+            b = nodes.get(currentNode).b;
+            w = nodes.get(currentNode).w;
+
+            //	We check if nodes are ok to include and if they are in the same MST or not,
+            // We do NOT want to create a cycle
+            if( kru.find(a) != kru.find(b) ) {
+
+                //	Uniting the trees when we know there is no cycle
+                kru.unite(a,b);
+                //	Adding total weight
+                treeWeight += w;
+
+                // Incrementing nbr of nodes in tree
+                treeEdges++;
             }
-            //	increase the index of the edge we will be chacking
-            mst_ni++;
+            //	Going to the next node
+            currentNode++;
         }
-        //	Presenting the WEIGHT
-        System.out.println(mst_weight);
-        //	THE END
+        //	Printing result
+        System.out.println(treeWeight);
     }
+
+
 
 }
