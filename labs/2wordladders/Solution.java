@@ -39,7 +39,7 @@ public class Solution {
 
             } else { // Input row with a query
 
-                //Build tree if it's the first query
+                //Build connections in tree if it's the first query
                 if (row == n + 1) {
                     buildConnections();
                 }
