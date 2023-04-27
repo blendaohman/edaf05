@@ -27,7 +27,7 @@ public class Parse {
                 else if (studentPref[nbr][1] == 0) { // Annars lägg till i student
                     for (int i = 1; i < n+1; i++) {
                         int j = scanner.nextInt();
-                        studentPref[nbr][j] = i;
+                        studentPref[nbr][i] = j;
                     }
                 }
             }

@@ -30,11 +30,15 @@ public class Solution {
             int student = students.getFirst();
             students.removeFirst();
             int priority = studentPrefs[student][0]+1; // Set the priority to 1
+            int perferredCompany = studentPrefs[student][priority];
+            /*
             int perferredCompany = 1; //Start from company 1
             for(int i = 1; studentPrefs[student][i] != priority; i++) { // Check which company has the matching priority
                 perferredCompany++;
             }
             studentPrefs[student][0] = studentPrefs[student][0]+1; //Update priority if the student should have to match again
+            */
+
             if (matches[perferredCompany] == -1) {
                 matches[perferredCompany] = student; //If the company has no match, insert student there
             } else if (companyPrefs[perferredCompany][matches[perferredCompany]] > companyPrefs[perferredCompany][student]) {
