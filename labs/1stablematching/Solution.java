@@ -10,29 +10,12 @@ public class Solution {
 
     public static void main(String[] args) {
         Parse parser = new Parse();
-      //  parser.sortData();
         companyPrefs = parser.getcompanyPrefs();
         studentPrefs = parser.getStudentPrefs();
 
-      /*  for (int k = 0; k < studentPrefs.length; k++) {
-            for (int h = 0; h < studentPrefs[k].length; h++) {
-                System.out.print(studentPrefs[k][h] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        for (int i = 0; i < companyPrefs.length; i++) {
-            for (int j = 0; j < companyPrefs[i].length; j++) {
-                System.out.print(companyPrefs[i][j] + " ");
-            }
-            System.out.println();
-        }
-       */
-
-
         int m = studentPrefs.length;
         matches = new int[m];
-        Arrays.fill(matches, -1);
+        Arrays.fill(matches, -1); // Fyll en array med -1 för att symbolisera ingen match
 
         match();
         for (int i = 1; i< matches.length; i++) {
@@ -40,68 +23,29 @@ public class Solution {
         }
     }
     public static void match() {
-        for (int s = 1; s < studentPrefs.length; s++) {
+        for (int s = 1; s < studentPrefs.length; s++) { //Lägger till studenterna i en array för att hålla koll på vilka som inte matchat
             students.add(s);
         }
         while (!(students.isEmpty())) {
             int student = students.getFirst();
             students.removeFirst();
-            int apply = studentPrefs[student][0]+1;
-        //    System.out.println("apply: " + apply);
-            int perferredCompany = 1;
-            for(int i = 1; studentPrefs[student][i] != apply; i++) {
+            int priority = studentPrefs[student][0]+1; // Set the priority to 1
+            int perferredCompany = 1; //Start from company 1
+            for(int i = 1; studentPrefs[student][i] != priority; i++) { // Check which company has the matching priority
                 perferredCompany++;
             }
-            studentPrefs[student][0] = studentPrefs[student][0]+1;
+            studentPrefs[student][0] = studentPrefs[student][0]+1; //Update priority if the student should have to match again
             if (matches[perferredCompany] == -1) {
-                matches[perferredCompany] = student;
-          //      System.out.println("matches :" + Arrays.toString(matches));
+                matches[perferredCompany] = student; //If the company has no match, insert student there
             } else if (companyPrefs[perferredCompany][matches[perferredCompany]] > companyPrefs[perferredCompany][student]) {
+                //Check the priority for the current student and compare with the one you have
+                //If current student is more preffered change the match and add the other student back to the array
                 students.addLast(matches[perferredCompany]);
                 matches[perferredCompany] = student;
-          //      System.out.println("matches :" + Arrays.toString(matches));
             } else {
                 students.addLast(student);
             }
-            perferredCompany = 1;
+            perferredCompany = 1; //Set the prefferedCompany back to one before doing another student
         }
     }
 }
-
-        /*while (true) {
-            int s = -1;
-            for (int i = 0; i < n; i++) {
-                if (studentFree[i]) {
-                   // System.out.println("StudentFree : " + Arrays.toString(studentFree));
-                    s = i; // Lägger in i i student
-                    break;
-                }
-            }
-            if (s == -1) {
-                // Alla har gåtts igenom?
-                break;
-            }
-            for (int i = 0; i < n && studentFree[s]; i++) {
-                int c = studentPref[s][i];
-               // System.out.println("C: " + c);
-                if (matches[c] == -1) {
-                  //  System.out.println("ref till comp. : " + c);
-                  //  System.out.println("input i matches 4 company: " + s);
-                    matches[c] = s;
-                    studentFree[s] = false;
-                  //  System.out.println("matches: " + Arrays.toString(matches));
-                } else {
-                    int s1 = matches[c];
-                    if (companyPref[c][s] < companyPref[c][s1]) {
-                        matches[c] = s;
-                        studentFree[s] = false;
-                        studentFree[s1] = true;
-                    }
-                }
-            }
-        }
-        return Arrays.copyOfRange(matches, 1, matches.length);
-        //return matches;*/
-
-
-

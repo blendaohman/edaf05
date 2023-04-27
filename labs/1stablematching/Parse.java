@@ -12,20 +12,19 @@ public class Parse {
     public Parse(){
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
-        studentPref = new int[n + 1][n + 1];
+        studentPref = new int[n + 1][n + 1]; //Därmed kan vi behålla nummerna i sina respektive rader och kolumner
         companyPref = new int[n + 1][n + 1];
 
         while(scanner.hasNext()) {
             if (scanner.hasNextInt()) {
                 int nbr = scanner.nextInt();
-               // System.out.println("nbr: " + nbr);
                 if (companyPref[nbr][1] == 0) {
-                    for (int i = 1; i < n+1; i++) {
+                    for (int i = 1; i < n+1; i++) { // Lägg till datan för det företaget
                         int j = scanner.nextInt();
                         companyPref[nbr][j] = i;
                     }
                 }
-                else if (studentPref[nbr][1] == 0) { //Annars lägg till delarna i student
+                else if (studentPref[nbr][1] == 0) { // Annars lägg till i student
                     for (int i = 1; i < n+1; i++) {
                         int j = scanner.nextInt();
                         studentPref[nbr][j] = i;
