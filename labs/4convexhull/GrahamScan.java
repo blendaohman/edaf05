@@ -102,15 +102,14 @@ public class GrahamScan {
 
         scan.nextInt(); //dimension, always 2
         int h = scan.nextInt();
-        System.out.println("h: " + h);
+       // System.out.println("h: " + h);
         scan.nextLine();
 
         while(scan.hasNext()){
 
             String[] input = scan.nextLine().split(" ");
-            // OMVANDLING TILL FLOAT??
             points.add(new Point(Float.valueOf(input[3]), Float.valueOf(input[4])));
-            System.out.println("x: " + input[3] + ", y: " + input[4]);
+       //     System.out.println("x: " + input[3] + ", y: " + input[4]);
         }
         GrahamScan hull = new GrahamScan();
 
@@ -129,9 +128,7 @@ public class GrahamScan {
             System.out.println((int)x + " " + (int)y);
         }
         else {
-            System.out.format("%.3f", x);
-            System.out.print(" ");
-            System.out.format("%.3f", y);
+            System.out.println(String.format(Locale.US, "%.3f", x) + " " + String.format(Locale.US, "%.3f", y));
         }
     }
 }
