@@ -24,21 +24,7 @@ public class Ph {
     }
         return k;
     }
-
-    /*
-    function leftmost (p)
-begin
-n ← |p|
-i ← 0
-for k = 0; k < n; k ← k + 1
-if p[k].x < p[i].x then
-i ← k
-// all points on a vertical line?
-if i = 0 then
-i ← 1 // avoid leftmost and rightmost being the same point
-return i
-end
-     */
+    
 
     public int leftmost(Point[] c){
         int n = c.length;
@@ -54,8 +40,9 @@ end
         return i;
     }
 
+    //determine if p is on the line segment between q and r.
     public boolean lineSegment(Point p, Point q, Point r){
-        return true;
+        if ccw(p, q, r) == 0 ? true : false;
     }
     /*
     function line_segment (p, q, r)

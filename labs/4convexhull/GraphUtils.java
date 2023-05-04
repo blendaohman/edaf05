@@ -3,10 +3,8 @@ import java.util.Iterator;
 
 public class GraphUtils {
 
-    /**
+    /*
      * finds the bottom most, left most point
-     * @param points
-     * @return
      */
     static Point getMinY(Collection<? extends Point> points) {
 
@@ -29,10 +27,7 @@ public class GraphUtils {
      * Line drawn from 'a' to 'b' to 'c'. We make use of the cross product, which calculates the area
      * of the parallelogram. If vector ab is on the left of vector ac, then
      *
-     * @param a - origin
-     * @param b
-     * @param c
-     * @return 1 if counter-clockwise, -1 if clockwise, 0 if collinear
+     * 1 if counter-clockwise, -1 if clockwise, 0 if collinear
      */
     static int ccw(Point a, Point b, Point c) {
         /*
@@ -57,11 +52,8 @@ public class GraphUtils {
         return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
     }
 
-    /**
+    /*
      * calculates the angle between the horizontal and the line drawn from 'a' to 'b'
-     * @param a
-     * @param b
-     * @return
      */
     static float angle(Point a, Point b) {
         float angle = (float) Math.toDegrees(Math.atan2(b.y - a.y, b.x - a.x));
