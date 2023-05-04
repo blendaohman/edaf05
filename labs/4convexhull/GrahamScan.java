@@ -1,29 +1,9 @@
 import java.util.*;
 import java.util.List;
 
-/**
- * The Convex Hull of a set of N points is the smallest perimeter fence that encloses all of the points.
- * Alt: The smallest area convex polygon enlosing all of the points.
- *
- * Implementation of "Graham scan" algorithm:
- * 1. find the point p with the smallest y-coordinate
- * 2. sort the point by polar angle from p
- * 3. iterate over the points in sorted order, discard unless a counter clockwise turn is created
- * 3.1 make sure that the sort places collinear points in expected sequence
- *
- * video tutorial at: https://youtu.be/B2AJoQSZf4M
- * @author Andre Violentyev
- */
 public class GrahamScan {
 
-    /**
-     * The comparator just compares the cross product of two vectors to see which one is on the
-     * left side and which is on the right side. Actual angles don't need to be calculated.
-     *
-     * @param points
-     * @param ref
-     */
-    private void sortByAngle(List<? extends Point> points, Point ref) {
+    private void sortByAngle(List<Point> points, Point ref) {
         Collections.sort(points, (b, c) -> {
             /*
              * the ref point should always be pushed to the beginning
@@ -32,32 +12,18 @@ public class GrahamScan {
             if (c == ref) return 1;
 
             int ccw = GraphUtils.ccw(ref, b, c);
+            //Handle collinear points.
             if (ccw == 0) {
-                /*
-                 * Handle collinear points. We can just use the x coordinate and not
-                 * bother with the y since the ratio of y/x is going to be the same
-                 */
-                if (Float.compare(b.x, c.x) == 0) {
-                    /*
-                     * rare case of floats matching up in a vertical line, we want
-                     * the closer point to be first
-                     */
-                    return b.y < c.y ? -1 : 1;
-                } else {
-                    return b.x < c.x ? -1 : 1;
-                }
+                double distB = GraphUtils.dist(b, ref);
+                double distC = GraphUtils.dist(c, ref);
+                return distB > distC ? 1 : -1;
+
             } else {
                 return ccw * -1;
             }
         });
     }
-    /**
-     * The main algorithm.
-     *
-     * @param points
-     * @return
-     */
-    public List<Point> scan(List<? extends Point> points) {
+    public List<Point> scan(List<Point> points) {
         Deque<Point> stack = new ArrayDeque<>();
 
         /*
@@ -65,6 +31,10 @@ public class GrahamScan {
          */
         Point minYPoint = GraphUtils.getMinY(points);
         sortByAngle(points, minYPoint); // sort by angle with respect to minYPoint
+        for(Point p: points) {
+            //System.out.println("x: " + p.x + " y: " + p.y);
+        }
+
 
         stack.push(points.get(0)); // 1st point is guaranteed to be on the hull
         stack.push(points.get(1)); // don't know about this one yet
@@ -94,22 +64,17 @@ public class GrahamScan {
     public static void main(String[] args) {
         List<Point> points = new ArrayList<>();
 
-       /* points.add(new Point(2, 2));
-        points.add(new Point(-2, 3));
-        points.add(new Point(1, 1));*/
-
         Scanner scan = new Scanner(System.in);
 
         scan.nextInt(); //dimension, always 2
         int h = scan.nextInt();
-       // System.out.println("h: " + h);
         scan.nextLine();
 
         while(scan.hasNext()){
 
             String[] input = scan.nextLine().split(" ");
             points.add(new Point(Float.valueOf(input[3]), Float.valueOf(input[4])));
-       //     System.out.println("x: " + input[3] + ", y: " + input[4]);
+
         }
         GrahamScan hull = new GrahamScan();
 
@@ -118,11 +83,12 @@ public class GrahamScan {
 
 
         for(Point p : res) {
-            print(p.x, p.y); //Allmänt lite olika i outputen. Om talet är 0000, gör till int.
-            //Annars avrunda till några decimaler.
+            print(p.x, p.y);
         }
 
     }
+
+    // Printa olika beroende på decimalerna
     private static void print(float x, float y) {
         if (x % 1 == 0) {
             System.out.println((int)x + " " + (int)y);
