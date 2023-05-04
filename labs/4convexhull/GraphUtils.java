@@ -25,7 +25,7 @@ public class GraphUtils {
 
         return min;
     }
-    /**
+    /*
      * Line drawn from 'a' to 'b' to 'c'. We make use of the cross product, which calculates the area
      * of the parallelogram. If vector ab is on the left of vector ac, then
      *
@@ -46,23 +46,13 @@ public class GraphUtils {
 
         return 0; // collinear
     }
-    /**
-     *
-     * @param a
-     * @param b
-     * @param c
-     * @return TRUE if strictly counter clock wise
+    /*TRUE if strictly counter clock wise
      */
     static boolean isCcwStrict(Point a, Point b, Point c) {
         return ccw(a, b, c) > 0;
     }
 
-    /**
-     *
-     * @param a
-     * @param b
-     * @return
-     */
+
     static double dist(Point a, Point b) {
         return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
     }
