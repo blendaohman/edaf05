@@ -42,18 +42,25 @@ public class Ph {
 
     //determine if p is on the line segment between q and r.
     public boolean lineSegment(Point p, Point q, Point r){
-        if ccw(p, q, r) == 0 ? true : false;
+        Point u = new Point(p.x - q.x, p.y - q.y);
+        Point v = new Point(r.x - q.x, r.y - q.y);
+        int w = ccw(p, q, r);
+        int uv = v.x*u.x + v.y*u.y;
+        int vv = v.x*v.x + v.y*v.y;
+        
+        return (w == 0 && uv > 0 && uv < vv);
+
     }
     /*
     function line_segment (p, q, r)
-begin
-/* determine if p is on the line segment between q and r.
-u ← qp
-v ← qr
-w = u × v
-return w = 0 and u · v > 0 and u · v < v · v
-end
-*/
+        begin
+        /* determine if p is on the line segment between q and r.
+        u ← qp
+        v ← qr
+        w = u × v
+        return w = 0 and u · v > 0 and u · v < v · v
+        end
+        */
 
     public int include_points(Point[] p, Point[] q, int j, int n){
         int i = 0;

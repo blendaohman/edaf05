@@ -73,7 +73,7 @@ public class GrahamScan {
         while(scan.hasNext()){
 
             String[] input = scan.nextLine().split(" ");
-            points.add(new Point(Float.valueOf(input[3]), Float.valueOf(input[4])));
+            points.add(new Point(Double.valueOf(input[3]), Double.valueOf(input[4])));
 
         }
         GrahamScan hull = new GrahamScan();
@@ -86,10 +86,12 @@ public class GrahamScan {
             print(p.x, p.y);
         }
 
+        scan.close();
+
     }
 
     // Printa olika beroende på decimalerna
-    private static void print(float x, float y) {
+    private static void print(double x, double y) {
         if (x % 1 == 0) {
             System.out.println((int)x + " " + (int)y);
         }

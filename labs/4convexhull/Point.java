@@ -1,9 +1,9 @@
 class Point {
-    final float x;
-    final float y;
-    float angle; // calculated later on in reference to some other point
+    final double x;
+    final double y;
+    double angle; // calculated later on in reference to some other point
 
-    Point(float x, float y) {
+    Point(double x, double y) {
         this.x = x;
         this.y = y;
     }

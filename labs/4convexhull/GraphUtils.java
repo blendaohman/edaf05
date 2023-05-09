@@ -33,7 +33,7 @@ public class GraphUtils {
         /*
          * determinant (the cross product) calculates the signed area of parallelogram
          */
-        float area = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+        double area = Math.round((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x));
 
         if (area < 0) return -1; // clockwise
 
@@ -55,12 +55,16 @@ public class GraphUtils {
     /*
      * calculates the angle between the horizontal and the line drawn from 'a' to 'b'
      */
-    static float angle(Point a, Point b) {
-        float angle = (float) Math.toDegrees(Math.atan2(b.y - a.y, b.x - a.x));
+    static double angle(Point a, Point b) {
+        double angle = (double) Math.toDegrees(Math.atan2(b.y - a.y, b.x - a.x));
         if (angle < 0) {
             angle += 360;
         }
         return angle;
+    }
+
+    static double length(Point p) {
+        return Math.sqrt(p.x*p.x + p.y*p.y);
     }
 }
 
