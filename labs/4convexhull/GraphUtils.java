@@ -41,30 +41,11 @@ public class GraphUtils {
 
         return 0; // collinear
     }
-    /*TRUE if strictly counter clock wise
-     */
-    static boolean isCcwStrict(Point a, Point b, Point c) {
-        return ccw(a, b, c) > 0;
-    }
 
 
     static double dist(Point a, Point b) {
         return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
     }
 
-    /*
-     * calculates the angle between the horizontal and the line drawn from 'a' to 'b'
-     */
-    static double angle(Point a, Point b) {
-        double angle = (double) Math.toDegrees(Math.atan2(b.y - a.y, b.x - a.x));
-        if (angle < 0) {
-            angle += 360;
-        }
-        return angle;
-    }
-
-    static double length(Point p) {
-        return Math.sqrt(p.x*p.x + p.y*p.y);
-    }
 }
 

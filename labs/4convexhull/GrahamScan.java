@@ -90,7 +90,7 @@ public class GrahamScan {
 
     }
 
-    // Printa olika beroende på decimalerna
+    // Printa olika beroende på decimalernaç
     private static void print(double x, double y) {
         if (x % 1 == 0) {
             System.out.println((int)x + " " + (int)y);
