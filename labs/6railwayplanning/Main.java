@@ -54,13 +54,13 @@ public class Main {
         // Kör algoritmen
         long maxFlow = solver.getMaxFlow();
 
-
         while(maxFlow< capacity) {
-            edgeInfo.add(removedEdges.get(remove.size()-1)); // Lägg till edgen som ligger sist i removedEdges
+            String [] newEdge = removedEdges.get(removedEdges.size()-1); //Lägg till den sista vi tog bort
+            solver.addEdge(Integer.parseInt(newEdge[0]), Integer.parseInt(newEdge[1]), Integer.parseInt(newEdge[2]));
 
-            // Kör algoritmen igen
-            // maxFlow = solver.getMaxFlow();
-            //
+            nbrRemoved--;
+            maxFlow = solver.getMaxFlow();
+
         }
 
         System.out.println(nbrRemoved + " " + maxFlow);
