@@ -60,15 +60,15 @@ public class Main {
 
         }
 
-        System.out.println("Removed edges: ");
-        for(int[] s : removedEdges) {
-            for(int k: s){
-                System.out.print(k + " ");
-
-            }
-            System.out.println();
-
-        }
+//        System.out.println("Removed edges: ");
+//        for(int[] s : removedEdges) {
+//            for(int k: s){
+//                System.out.print(k + " ");
+//
+//            }
+//            System.out.println();
+//
+//        }
         //Antalet index som tas bort
         int nbrRemoved = remove.size();
 
@@ -77,39 +77,40 @@ public class Main {
             if(v[2] != -1) {
                 solver.addEdge(v[0], v[1], v[2]);
                 solver.addEdge(v[1], v[0], v[2]);
-                System.out.println("Added edge");
+        //        System.out.println("Added edge");
             }
         }
 
 
         // Kör algoritmen
         long maxFlow = solver.getMaxFlow();
-        System.out.println("maxFlow: " + maxFlow);
-        System.out.println("Capacity: " + capacity);
+        //System.out.println("maxFlow: " + maxFlow);
+      //  System.out.println("Capacity: " + capacity);
 
-        while(maxFlow < capacity) {
-            System.out.println("maxFlow < capacity: maxflow is " + maxFlow);
+        while(maxFlow < capacity && removedEdges.size() > 0) {
+            //System.out.println("maxFlow < capacity: maxflow is " + maxFlow);
             int [] newEdge = removedEdges.remove(removedEdges.size()-1); //Lägg till den sista vi tog bort
-            System.out.println("New edge: ");
-            for(int s : newEdge) {
+           // System.out.println("New edge: ");
+/*            for(int s : newEdge) {
                 System.out.print(s);
                 System.out.println();
-            }
+            }*/
 
             solver.addEdge(newEdge[0], newEdge[1], newEdge[2]);
             solver.addEdge(newEdge[1], newEdge[0], newEdge[2]);
 
-            System.out.println("All edges in graph: ");
+/*            System.out.println("All edges in graph: ");
             for(List<EF.Edge> e : solver.getGraph()){
                 for(EF.Edge o: e){
                     System.out.println(o.to + " " + o.from + " " + o.capacity);
                 }
-            }
+            }*/
             solver.getGraph();
 
             nbrRemoved--;
+            solver.solve();
             maxFlow = solver.getMaxFlow();
-            System.out.println("new maxflow: " + maxFlow);
+            //System.out.println("new maxflow: " + maxFlow);
 
             //System.out.println("maxFlow: " + maxFlow);
         }

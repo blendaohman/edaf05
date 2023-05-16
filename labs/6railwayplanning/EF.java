@@ -53,7 +53,7 @@ public class EF {
 
     private void initializeGraph() {
         graph = new List[n];
-        for (int i = 0; i < n; i++) graph[i] = new ArrayList<Edge>();
+        for (int i = 0; i < n; i++) graph[i] = new ArrayList<>();
     }
 
     /*
@@ -64,7 +64,7 @@ public class EF {
      * @param capacity - The capacity of the edge.
      */
     public void addEdge(int from, int to, long capacity) {
-        if (capacity < 0) throw new IllegalArgumentException("Capacity < 0");
+        //if (capacity < 0) throw new IllegalArgumentException("Capacity < 0");
         Edge e1 = new Edge(from, to, capacity);
         Edge e2 = new Edge(to, from, 0);
         e1.residual = e2;
@@ -94,23 +94,13 @@ public class EF {
      * figure out which edges were used during the max flow.
      */
     public List<Edge>[] getGraph() {
-        execute();
         return graph;
     }
 
     // Returns the maximum flow from the source to the sink.
     public long getMaxFlow() {
-        execute();
         return maxFlow;
     }
-
-    // Wrapper method that ensures we only call solve() once
-    private void execute() {
-        if (solved) return;
-        solved = true;
-        solve();
-    }
-    // Run Edmonds-Karp and compute the max flow from the source to the sink node.
 
     public void solve() {
         long flow;
