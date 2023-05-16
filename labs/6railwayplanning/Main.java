@@ -18,17 +18,17 @@ public class Main {
         int routes = scan.nextInt();
         scan.nextLine();
         EF solver = new EF(nodes, 0, nodes-1);
-        List<String[]> edgeInfo = new LinkedList<>();
+        //List<String[]> edgeInfo = new LinkedList<>();
+        String[][] edgeInfo = new String[edges][3];
+        //String[][] removedEdges = new String[edges][3];
+        List<String[]> removedEdges = new LinkedList<>();
 
         List<Integer> remove = new ArrayList<>();
-
-        List<String[]> removedEdges = new LinkedList<>();
 
         for(int i = 0; i < routes; i++){
             String s = scan.nextLine();
             String[] v = s.split(" ");
-            //edgeInfo.add(i, new LinkedList<>());
-            edgeInfo.add(v);
+            edgeInfo[i] = v;
 
             //solver.addEdge(Integer.parseInt(v[0]), Integer.parseInt(v[1]), Integer.parseInt(v[2]));
         }
@@ -40,15 +40,19 @@ public class Main {
 
         //Ta bort alla edges som var i slutet
         for(int index : remove){
-            removedEdges.add(edgeInfo.remove(index));
-        }
+            removedEdges.add(edgeInfo[index]);
+            edgeInfo[index] = null;
 
+        }
         //Antalet index som tas bort
         int nbrRemoved = remove.size();
 
         //Adda alla edges
         for(String[] v : edgeInfo){
-            solver.addEdge(Integer.parseInt(v[0]), Integer.parseInt(v[1]), Integer.parseInt(v[2]));
+            if(v!=null) {
+                solver.addEdge(Integer.parseInt(v[0]), Integer.parseInt(v[1]), Integer.parseInt(v[2]));
+                System.out.print(Integer.parseInt(v[0]));
+            }
         }
 
         // Kör algoritmen
