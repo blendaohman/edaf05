@@ -1,11 +1,10 @@
-/**
+/*
  * An implementation of the Edmonds-Karp algorithm which is essentially Ford-Fulkerson with a BFS as
  * a method of finding augmenting paths. This Edmonds-Karp algorithm will allow you to find the max
  * flow through a directed graph and the min cut as a byproduct.
  *
  * <p>Time Complexity: O(VE^2)
  *
- * @author William Fiset, william.alexandre.fiset@gmail.com
  */
 
 import static java.lang.Math.min;
@@ -15,18 +14,13 @@ import java.util.*;
 public class EF {
 
     /*
-     * Creates an instance of a flow network solver. Use the {@link #addEdge(int, int, int)} method to
-     * add edges to the graph.
-     *
      * @param n - The number of nodes in the graph including source and sink nodes.
      * @param s - The index of the source node, 0 <= s < n
      * @param t - The index of the sink node, 0 <= t < n, t != s
      */
-    private static final long INF = Long.MAX_VALUE / 2;
     private final int n, s, t;
     private long maxFlow;
-    private long minCost;
-    private boolean[] minCut;
+    private List<List<Integer>> allRoutes = new LinkedList<>(); //last element is the weight
     private List<Edge>[] graph;
     // 'visited' and 'visitedToken' are variables used for graph sub-routines to
     // track whether a node has been visited or not. In particular, node 'i' was
@@ -38,7 +32,8 @@ public class EF {
     // run the solver multiple times, because it always yields the same result.
     private boolean solved;
 
-    /**
+
+    /*
      * Creates an instance of a flow network solver. Use the {@link #addEdge} method to add edges to
      * the graph.
      *
@@ -51,18 +46,17 @@ public class EF {
         this.s = s;
         this.t = t;
         initializeGraph();
-        minCut = new boolean[n];
         visited = new int[n];
     }
 
     // Construct an empty graph with n nodes including the source and sink nodes.
-    @SuppressWarnings("unchecked")
+
     private void initializeGraph() {
         graph = new List[n];
         for (int i = 0; i < n; i++) graph[i] = new ArrayList<Edge>();
     }
 
-    /**
+    /*
      * Adds a directed edge (and residual edge) to the flow graph.
      *
      * @param from - The index of the node the directed edge starts at.
@@ -73,16 +67,6 @@ public class EF {
         if (capacity < 0) throw new IllegalArgumentException("Capacity < 0");
         Edge e1 = new Edge(from, to, capacity);
         Edge e2 = new Edge(to, from, 0);
-        e1.residual = e2;
-        e2.residual = e1;
-        graph[from].add(e1);
-        graph[to].add(e2);
-    }
-
-    /* Cost variant of {@link #addEdge(int, int, int)} for min-cost max-flow */
-    public void addEdge(int from, int to, long capacity, long cost) {
-        Edge e1 = new Edge(from, to, capacity, cost);
-        Edge e2 = new Edge(to, from, 0, -cost);
         e1.residual = e2;
         e2.residual = e1;
         graph[from].add(e1);
@@ -106,8 +90,7 @@ public class EF {
     }
 
     /*
-     * Returns the graph after the solver has been executed. This allow you to inspect the {@link
-     * NetworkFlowSolverBase.Edge#flow} compared to the {@link NetworkFlowSolverBase.Edge#capacity} in each edge. This is useful if you want to
+     * Returns the graph after the solver has been executed. This allow you to inspect the Edge#flow compared to the {@link NetworkFlowSolverBase.Edge#capacity} in each edge. This is useful if you want to
      * figure out which edges were used during the max flow.
      */
     public List<Edge>[] getGraph() {
@@ -121,30 +104,12 @@ public class EF {
         return maxFlow;
     }
 
-    // Returns the min cost from the source to the sink.
-    // NOTE: This method only applies to min-cost max-flow algorithms.
-    public long getMinCost() {
-        execute();
-        return minCost;
-    }
-
-    // Returns the min-cut of this flow network in which the nodes on the "left side"
-    // of the cut with the source are marked as true and those on the "right side"
-    // of the cut with the sink are marked as false.
-    public boolean[] getMinCut() {
-        execute();
-        return minCut;
-    }
-
     // Wrapper method that ensures we only call solve() once
     private void execute() {
         if (solved) return;
         solved = true;
         solve();
     }
-
-
-
     // Run Edmonds-Karp and compute the max flow from the source to the sink node.
 
     public void solve() {
@@ -153,9 +118,13 @@ public class EF {
             markAllNodesAsUnvisited();
             flow = bfs();
             maxFlow += flow;
+
         } while (flow != 0);
 
-        for (int i = 0; i < n; i++) if (visited(i)) minCut[i] = true;
+        for(List<Integer> routes : allRoutes){
+            System.out.println("Route: " + routes.toString());
+        }
+        //for (int i = 0; i < n; i++) if (visited(i)) minCut[i] = true;
     }
 
     private long bfs() {
