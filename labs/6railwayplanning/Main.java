@@ -35,9 +35,7 @@ public class Main {
             int from = Integer.parseInt(v[1]);
             int weight = Integer.parseInt(v[2]);
 
-            edgeInfo[i][0] = to;
-            edgeInfo[i][1] = from;
-            edgeInfo[i][2] = weight;
+            edgeInfo[i] = new int[]{to, from, weight};
 
             //solver.addEdge(Integer.parseInt(v[0]), Integer.parseInt(v[1]), Integer.parseInt(v[2]));
         }
@@ -60,15 +58,15 @@ public class Main {
 
         }
 
-//        System.out.println("Removed edges: ");
-//        for(int[] s : removedEdges) {
-//            for(int k: s){
-//                System.out.print(k + " ");
-//
-//            }
-//            System.out.println();
-//
-//        }
+/*        System.out.println("Removed edges: ");
+        for(int[] s : removedEdges) {
+            for(int k: s){
+                System.out.print(k + " ");
+
+            }
+            System.out.println();
+
+        }*/
         //Antalet index som tas bort
         int nbrRemoved = remove.size();
 
@@ -99,23 +97,22 @@ public class Main {
             solver.addEdge(newEdge[0], newEdge[1], newEdge[2]);
             solver.addEdge(newEdge[1], newEdge[0], newEdge[2]);
 
-/*            System.out.println("All edges in graph: ");
-            for(List<EF.Edge> e : solver.getGraph()){
-                for(EF.Edge o: e){
-                    System.out.println(o.to + " " + o.from + " " + o.capacity);
-                }
-            }*/
-            solver.getGraph();
+
+//           System.out.println("All edges in graph: ");
+//            for(List<EF.Edge> e : solver.getGraph()){
+//                for(EF.Edge o: e){
+//                    System.out.println(o.to + " " + o.from + " " + o.capacity); //Vi har massa noder som är 0 0 0
+//                }
+//            }
 
             nbrRemoved--;
             solver.solve();
-            maxFlow = solver.getMaxFlow();
+            maxFlow = solver.getMaxFlow(); // +=, då funkar inte  1small.in
             //System.out.println("new maxflow: " + maxFlow);
-
-            //System.out.println("maxFlow: " + maxFlow);
         }
 
         System.out.println(nbrRemoved + " " + maxFlow);
+
         // If solver.getMaxFlow >= capacity, print result och antal rader
         // Else, lägg till sista i listan igen
 

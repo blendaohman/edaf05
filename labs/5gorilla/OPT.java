@@ -56,13 +56,6 @@ public class OPT {
         for (int i = 1; i < n+1; i++) {
             for (int j = 1; j < m+1; j++) {
 
-                for(int ii= 0; ii<n+1; ii++) {
-                    for(int iii= 0;  iii<m+1; iii++) {
-                        System.out.print(weights[ii][iii]);
-                    }
-                    System.out.println();
-                }
-
                 int a1 = weights[i-1][j] + delta;
                 int a2 = weights[i][j-1] + delta;
 
@@ -114,19 +107,6 @@ public class OPT {
             m--;
         }
     }
-
-
-    public void print(int[][] opt, int n, int m) {
-
-        for (int i = 0; i < n+1; i++) {
-            for (int j = 0; j < m+1; j++) {
-
-                System.out.print(opt[i][j]+",\t ");
-            }
-            System.out.println();
-        }
-    }
-
 
     public static void main(String[] args) {
         OPT sa = new OPT();
