@@ -13,33 +13,14 @@ import java.util.*;
 
 public class EF {
 
-    /*
-     * @param n - The number of nodes in the graph including source and sink nodes.
-     * @param s - The index of the source node, 0 <= s < n
-     * @param t - The index of the sink node, 0 <= t < n, t != s
-     */
     private final int n, s, t;
     private long maxFlow;
-    private List<List<Integer>> allRoutes = new LinkedList<>(); //last element is the weight
     private List<Edge>[] graph;
-    // 'visited' and 'visitedToken' are variables used for graph sub-routines to
-    // track whether a node has been visited or not. In particular, node 'i' was
-    // recently visited if visited[i] == visitedToken is true. This is handy
-    // because to mark all nodes as unvisited simply increment the visitedToken.
     private int visitedToken = 1;
     private int[] visited;
-    // Indicates whether the network flow algorithm has ran. We should not need to
-    // run the solver multiple times, because it always yields the same result.
-    private boolean solved;
-
 
     /*
-     * Creates an instance of a flow network solver. Use the {@link #addEdge} method to add edges to
-     * the graph.
-     *
-     * @param n - The number of nodes in the graph including source and sink nodes.
-     * @param s - The index of the source node, 0 <= s < n
-     * @param t - The index of the sink node, 0 <= t < n, t != s
+     * Creates an instance of a flow network solver.
      */
     public EF(int n, int s, int t) {
         this.n = n;
@@ -50,7 +31,6 @@ public class EF {
     }
 
     // Construct an empty graph with n nodes including the source and sink nodes.
-
     private void initializeGraph() {
         graph = new List[n];
         for (int i = 0; i < n; i++) graph[i] = new ArrayList<>();
@@ -58,10 +38,6 @@ public class EF {
 
     /*
      * Adds a directed edge (and residual edge) to the flow graph.
-     *
-     * @param from - The index of the node the directed edge starts at.
-     * @param to - The index of the node the directed edge ends at.
-     * @param capacity - The capacity of the edge.
      */
     public void addEdge(int from, int to, long capacity) {
         //if (capacity < 0) throw new IllegalArgumentException("Capacity < 0");
@@ -78,7 +54,7 @@ public class EF {
         visited[i] = visitedToken;
     }
 
-    // Returns whether or not node 'i' has been visited.
+    // Returns whether the node 'i' has been visited or not.
     public boolean visited(int i) {
         return visited[i] == visitedToken;
     }
@@ -89,16 +65,9 @@ public class EF {
         visitedToken++;
     }
 
-    /*
-     * Returns the graph after the solver has been executed. This allow you to inspect the Edge#flow compared to the {@link NetworkFlowSolverBase.Edge#capacity} in each edge. This is useful if you want to
-     * figure out which edges were used during the max flow.
-     */
-    public List<Edge>[] getGraph() {
-        return graph;
-    }
-
     // Returns the maximum flow from the source to the sink.
     public long getMaxFlow() {
+        solve();
         return maxFlow;
     }
 
@@ -110,11 +79,6 @@ public class EF {
             maxFlow += flow;
 
         } while (flow != 0);
-
-        for(List<Integer> routes : allRoutes){
-            System.out.println("Route: " + routes.toString());
-        }
-        //for (int i = 0; i < n; i++) if (visited(i)) minCut[i] = true;
     }
 
     private long bfs() {
@@ -160,18 +124,13 @@ public class EF {
     public static class Edge {
         public int from, to;
         public Edge residual;
-        public long flow, cost;
-        public final long capacity, originalCost;
+        public long flow;
+        public final long capacity;
 
         public Edge(int from, int to, long capacity) {
-            this(from, to, capacity, 0 /* unused */);
-        }
-
-        public Edge(int from, int to, long capacity, long cost) {
             this.from = from;
             this.to = to;
             this.capacity = capacity;
-            this.originalCost = this.cost = cost;
         }
 
         public boolean isResidual() {
@@ -185,14 +144,6 @@ public class EF {
         public void augment(long bottleNeck) {
             flow += bottleNeck;
             residual.flow -= bottleNeck;
-        }
-
-        public String toString(int s, int t) {
-            String u = (from == s) ? "s" : ((from == t) ? "t" : String.valueOf(from));
-            String v = (to == s) ? "s" : ((to == t) ? "t" : String.valueOf(to));
-            return String.format(
-                    "Edge %s -> %s | flow = %d | capacity = %d | is residual: %s",
-                    u, v, flow, capacity, isResidual());
         }
     }
 
